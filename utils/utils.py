@@ -451,7 +451,7 @@ def build_targets(p, targets, model):
     for i, j in enumerate(model.yolo_layers):
         # get number of grid points and anchor vec for this yolo layer
         anchors = model.module.module_list[j].anchor_vec if multi_gpu else model.module_list[j].anchor_vec
-
+        print("anchors", anchors)
         # iou of targets-anchors
         print(i, p[i].shape)
         gain[2:] = torch.tensor(p[i].shape)[[3, 2, 3, 2]]  # xyxy gain
