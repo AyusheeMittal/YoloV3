@@ -306,7 +306,9 @@ class Darknet(nn.Module):
                 x[1][..., :4] /= s[0]  # scale
                 x[1][..., 0] = img_size[1] - x[1][..., 0]  # flip lr
                 x[2][..., :4] /= s[1]  # scale
-                x = torch.cat(x, 1)               
+                x = torch.cat(x, 1) 
+                print("p shape - ", p.shape)
+                print("x shape - ", x.shape)
             return x, p
 
     def fuse(self):
