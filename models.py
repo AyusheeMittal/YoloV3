@@ -255,7 +255,7 @@ class Darknet(nn.Module):
             #     elif i == 2:
             #         yi *= (area > 32. ** 2).float()
             #     y[i] = yi
-            print("y and p size", y.shape)
+            
             y = torch.cat(y, 1)
             return y, None
 
@@ -306,10 +306,7 @@ class Darknet(nn.Module):
                 x[1][..., :4] /= s[0]  # scale
                 x[1][..., 0] = img_size[1] - x[1][..., 0]  # flip lr
                 x[2][..., :4] /= s[1]  # scale
-                x = torch.cat(x, 1)
-                
-                print("x and p size", x.shape, p.shape)
-                
+                x = torch.cat(x, 1)               
             return x, p
 
     def fuse(self):
