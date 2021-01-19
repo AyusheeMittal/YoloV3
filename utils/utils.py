@@ -392,6 +392,7 @@ def compute_loss(p, targets, model):  # predictions, targets, model
     np, ng = 0, 0  # number grid points, targets
     for i, pi in enumerate(p):  # layer index, layer predictions
         b, a, gj, gi = indices[i]  # image, anchor, gridy, gridx
+        print("pi shape", pi.shape)
         tobj = torch.zeros_like(pi[..., 0])  # target obj
         np += tobj.numel()
 
@@ -399,7 +400,9 @@ def compute_loss(p, targets, model):  # predictions, targets, model
         nb = len(b)
         if nb:  # number of targets
             ng += nb
+            print("b, a, gj, gi", b, a, gj, gi)
             ps = pi[b, a, gj, gi]  # prediction subset corresponding to targets
+            print("ps", ps)
             # ps[:, 2:4] = torch.sigmoid(ps[:, 2:4])  # wh power loss (uncomment)
 
             # GIoU
@@ -451,9 +454,9 @@ def build_targets(p, targets, model):
     for i, j in enumerate(model.yolo_layers):
         # get number of grid points and anchor vec for this yolo layer
         anchors = model.module.module_list[j].anchor_vec if multi_gpu else model.module_list[j].anchor_vec
-        print("anchors", anchors)
+        #print("anchors", anchors)
         # iou of targets-anchors
-        print(i, p[i].shape)
+        #print(i, p[i].shape)
         gain[2:] = torch.tensor(p[i].shape)[[3, 2, 3, 2]]  # xyxy gain
         t, a = targets * gain, []
         gwh = t[:, 4:6]
